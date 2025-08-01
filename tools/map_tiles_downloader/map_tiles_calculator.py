@@ -1,5 +1,5 @@
 """
-Helper functions for map_tiles_downloader.py
+Functions to find tiles coordinates for map_tiles_downloader.py
 
 - tile: (zoom, x, y)
 - tile_list: list of tiles [(zoom, x, y), ...]

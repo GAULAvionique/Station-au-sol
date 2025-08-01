@@ -19,7 +19,7 @@ https://tools.geofabrik.de/map/?type=Geofabrik_Standard&grid=1#3/53.0188/-82.765
 # Launch Canada (Timmins):
 # (48.475804, -81.338665)
 
-from helper_functions import tiles_between, download_tiles
+from map_tiles_calculator import tiles_between, download_tiles
 
 
 def get_north_america_base_tiles():
