@@ -1,6 +1,5 @@
 # Node.js packages
-node_modules/*
-*/node_modules/*
+**/node_modules/*
 
 # SCSS map files
 *css.map
@@ -9,6 +8,9 @@ node_modules/*
 *.log
 backend/logs/*
 backend/dist/log*.txt
+
+# Python cache files
+**/__pycache__/*
 
 # Visual studio config
 .vs/*

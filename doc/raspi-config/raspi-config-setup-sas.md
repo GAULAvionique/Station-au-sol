@@ -19,7 +19,7 @@ ssh gaul@gaul-sas.local
 _Are you sure you want to continue connecting (yes/no/\[fingerprint\])?_ \
 \> yes
 
-_password:_ sas
+_password:_ saspassword
 
 (Voir la [documentation officielle](https://www.raspberrypi.com/documentation/computers/remote-access.html) en cas de problème)
 
@@ -30,7 +30,7 @@ Node.js permet d'exécuter le backend de la station au sol écrit en Javascript.
 Ajouter la source:
 
 ```bash
-curl -fsSL https://deb.nodesource.com/setup_20.x
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 ```
 
 Installer Node.js et npm:
@@ -46,13 +46,7 @@ Tous les fichiers nécessaires pour la station au sol se trouvent sur GitHub.
 Entrer la commande pour cloner le repo (publique ou privé):
 
 ```bash
-# Publique
-git clone https://github.com/mathouqc/Station-au-sol.git
-
-# OU
-
-# Privé (nécessite un token d'un utilisateur autorisé pour se connecter)
-git clone https://github.com/GAULAvionique2023-2024/Station-au-sol.git
+git clone https://github.com/GAULAvionique2024-2025/Station-au-sol.git
 ```
 
 Ensuite, changer de répertoire:

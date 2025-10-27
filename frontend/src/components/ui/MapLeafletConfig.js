@@ -29,18 +29,21 @@ const myIcons = {
 };
 
 const LAUNCH_CANADA_LL = [47.986885, -81.848403];
-const SPACEPORT_AMERICA_LL = [32.9895, -106.97509];
+// const SPACEPORT_AMERICA_LL = [32.9895, -106.97509];
+const IREC_LL = [31.043707, -103.528598];
 
 const myMarkers = {
     rocket: Lmarker([0, 0], { icon: myIcons.rocket }).bindPopup("<b>Rocket position</b>"),
     userPos: Lmarker([0, 0], { icon: myIcons.userPos }).bindPopup("<b>You're here</b>"),
     launchCanada: Lmarker(LAUNCH_CANADA_LL, { icon: myIcons.launchpad }).bindPopup("<b>Launch Canada !</b>"),
-    spacePortAmerica: Lmarker(SPACEPORT_AMERICA_LL, { icon: myIcons.launchpad }).bindPopup(
-        "<b>Spaceport America !</b>"
-    ),
+    // spacePortAmerica: Lmarker(SPACEPORT_AMERICA_LL, { icon: myIcons.launchpad }).bindPopup(
+    //     "<b>Spaceport America !</b>"
+    // ),
+    irec: Lmarker(IREC_LL, { icon: myIcons.launchpad }).bindPopup("<b>IREC !</b>"),
 };
 
-const myLaunchpadsLayer = LfeatureGroup([myMarkers.launchCanada, myMarkers.spacePortAmerica]);
+// const myLaunchpadsLayer = LfeatureGroup([myMarkers.launchCanada, myMarkers.spacePortAmerica]);
+const myLaunchpadsLayer = LfeatureGroup([myMarkers.launchCanada, myMarkers.irec]);
 
 const myPolyline = Lpolyline([], { color: "grey" });
 

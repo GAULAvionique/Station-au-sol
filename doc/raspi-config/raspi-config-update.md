@@ -4,8 +4,6 @@ Retour aux [guides pour configurer le Raspberry Pi](./raspi-config.md)
 
 ---
 
-Lorsque des modifications sont apportées au code de la station, il faut construire l'interface (voir [developpement#comment-construire](../guide/developpement.md#comment-construire-lapplication-pour-le-mode-production)), puis mettre à jour les fichiers du Raspberry Pi à partir de GitHub (voir les explications qui suivent).
-
 ## Accès à distance au Raspberry Pi en SSH
 
 Se connecter au Wi-Fi du Raspberry Pi (`gaul-sas`) avec un ordinateur. Le mot de passe est `saspassword`. Puis accéder au Raspberry Pi en SSH avec:
@@ -17,11 +15,25 @@ ssh gaul@gaul-sas.local
 _Are you sure you want to continue connecting (yes/no/\[fingerprint\])?_ \
 \> yes
 
-_password:_ sas
+_password:_ saspassword
 
 (Voir la [documentation officielle](https://www.raspberrypi.com/documentation/computers/remote-access.html) en cas de problème)
 
-## Connecter la station au sol à internet
+## **NOUVELLE MÉTHODE AUTOMATIQUE**
+
+Une fois connecté à la station au sol à distance en SSH, lancer le script de mise à jour:
+
+```bash
+bash ~/Station-au-sol/tools/raspi_update.sh
+```
+
+En cas de problème pour exécuter le script, entrer:
+
+```bash
+chmod +x ~/Station-au-sol/tools/raspi_update.sh
+```
+
+## Ancienne méthode: connecter la station au sol à internet
 
 S'assurer qu'un réseau Wi-Fi avec internet est disponible et accessible par le Raspberry Pi. Je conseille de créer un point d'accès (hotspot) avec un téléphone ou un ordinateur pour faciliter le processus.
 
@@ -36,7 +48,7 @@ sudo nmcli device wifi list
 Puis se connecter au réseau désiré avec:
 
 ```bash
-nmcli device wifi connect <Nom Wi-FI> password <Mot de passe Wi-Fi>
+sudo nmcli device wifi connect <Nom Wi-FI> password <Mot de passe Wi-Fi>
 ```
 
 **Si le réseau a déjà été configuré, on peut simplement enlever le hotspot, et le Raspberry Pi devrait se reconnecter automatiquement**

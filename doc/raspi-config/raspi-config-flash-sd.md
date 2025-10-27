@@ -25,7 +25,7 @@ _Nom d'hôte :_ gaul-sas
 
 **\[X\] Définir nom d'utilisateur et mot de passe** \
 _Nom d'utilisateur :_ gaul \
-_Mot de passe :_ sas
+_Mot de passe :_ saspassword
 
 **\[X] Configurer le Wi-Fi** \
 _SSID :_ \<Nom du hotspot Wi-FI\> \
@@ -64,7 +64,7 @@ ssh gaul@gaul-sas.local
 _Are you sure you want to continue connecting (yes/no/\[fingerprint\])?_ \
 \> yes
 
-_password:_ sas
+_password:_ saspassword
 
 (Voir la [documentation officielle](https://www.raspberrypi.com/documentation/computers/remote-access.html) en cas de problème)
 
