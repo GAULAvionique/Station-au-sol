@@ -1,0 +1,72 @@
+{
+  "$schema": "mode_schema.json",
+  "name": "PREFLIGHT",
+  "totalLength": 34,
+  "flag_fields": {
+    "size_bits": 6,
+    "fields": [
+      {
+        "key": "statIgniter1",
+        "offset": 5
+      },
+      {
+        "key": "statIgniter2",
+        "offset": 4
+      },
+      {
+        "key": "statAccelerometer",
+        "offset": 3
+      },
+      {
+        "key": "statBarometer",
+        "offset": 2
+      },
+      {
+        "key": "gps_fix",
+        "offset": 1
+      },
+      {
+        "key": "statSD",
+        "offset": 0
+      }
+    ]
+  },
+  "dataFields": [
+    {
+      "key": "temperature",
+      "type": "float"
+    },
+    {
+      "key": "altitude",
+      "type": "float"
+    },
+    {
+      "key": "roll",
+      "type": "float"
+    },
+    {
+      "key": "pitch",
+      "type": "float"
+    },
+    {
+      "key": "NULL",
+      "type": "float"
+    },
+    {
+      "key": "lipo1_mV",
+      "type": "Uint16"
+    },
+    {
+      "key": "lipo2_mV",
+      "type": "Uint16"
+    },
+    {
+      "key": "lipo3_mV",
+      "type": "Uint16"
+    },
+    {
+      "key": "AN_mV",
+      "type": "Uint16"
+    }
+  ]
+}

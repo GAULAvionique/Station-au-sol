@@ -1,0 +1,68 @@
+{
+  "$schema": "mode_schema.json",
+  "name": "",
+  "totalLength": 30,
+  "flag_fields": {
+    "size_bits": 6,
+    "fields": [
+      {
+        "key": "statIgniter1",
+        "offset": 5
+      },
+      {
+        "key": "statIgniter2",
+        "offset": 4
+      },
+      {
+        "key": "statAccelerometer",
+        "offset": 3
+      },
+      {
+        "key": "statBarometer",
+        "offset": 2
+      },
+      {
+        "key": "gps_fix",
+        "offset": 1
+      },
+      {
+        "key": "statSD",
+        "offset": 0
+      }
+    ]
+  },
+  "dataFields": [
+    {
+      "key": "altitude",
+      "type": "float"
+    },
+    {
+      "key": "NULL",
+      "type": "float"
+    },
+    {
+      "key": "latitude",
+      "type": "float"
+    },
+    {
+      "key": "longitude",
+      "type": "float"
+    },
+    {
+      "key": "mVLipo1",
+      "type": "Uint16"
+    },
+    {
+      "key": "mVLipo2",
+      "type": "Uint16"
+    },
+    {
+      "key": "mVLipo3",
+      "type": "Uint16"
+    },
+    {
+      "key": "mVAN",
+      "type": "Uint16"
+    }
+  ]
+}

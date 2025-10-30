@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "better-sqlite3": "^11.5.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }

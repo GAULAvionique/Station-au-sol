@@ -1,0 +1,13 @@
+{
+    "header_byte_config": {
+        "index": 1,
+        "mode_field": {
+            "key": "flightMode",
+            "size_bits": 2,
+            "offset": 6
+        }
+    },
+    "mode_details": {
+        "0": "backend/src/utils/flightConfig/mode_0.json"
+    }
+}
