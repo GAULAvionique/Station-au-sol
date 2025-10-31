@@ -2,7 +2,7 @@ import EventEmitter from "node:events";
 import MyStorage from "./storage.mjs";
 import {Buffer} from "node:buffer";
 import myLogger from "./logger.mjs";
-import Config from "./utils/config";
+import Config from "./utils/config.js";
 
 const logger = myLogger.getCustomLogger("Data");
 
@@ -48,10 +48,8 @@ export default class MyData extends EventEmitter {
 
     //-------------------------------------------------------------------------------
 
-    // Extract values from a packet of data
-    handleDataLine(line) {
-        // Skip data if under threshold
-        if (Date.now() - this.lastDataTime < this.dataInterval) {
+    handleDataLine(line, ignore_time = false) {
+        if (!ignore_time && (Date.now() - this.lastDataTime < this.dataInterval)) {
             return;
         } else {
             this.lastDataTime = Date.now();
@@ -86,11 +84,11 @@ export default class MyData extends EventEmitter {
         let current_offset = Math.ceil((mode_data.flag_fields.size_bits + this.config.header.mode_field.size_bits) / 8) + this.config.header.index;
 
         for (const dataField of mode_informations) {
+            const type = Config.typeReading[dataField.type]
             if (dataField.key !== "NULL") {
-                const type = Config.typeReading[dataField.type]
                 dataDict[dataField.key] = line.subarray(current_offset, current_offset + type.len)[type.method]();
             }
-            current_offset += dataField.len;
+            current_offset += type.len;
         }
 
         dataDict = this.standarizeData(dataDict);
@@ -226,7 +224,7 @@ export default class MyData extends EventEmitter {
     }
 }
 
-    //-------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------
 
 function numberPrecision(value, precision) {
     return Number(Number(value).toFixed(precision));

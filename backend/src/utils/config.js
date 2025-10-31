@@ -1,3 +1,5 @@
+import fs from "fs";
+
 export default class Config {
 
     static typeReading = {
@@ -6,7 +8,7 @@ export default class Config {
     }
 
     static loadAllConfigs() {
-        const mainConfig = JSON.parse(fs.readFileSync('backend/src/utils/flightConfig/flightConfig.json', 'utf8'));
+        const mainConfig = JSON.parse(fs.readFileSync('./src/utils/flightConfig/flightConfig.json', 'utf8'));
 
         const finalConfig = {
             header: mainConfig.header_byte_config,
