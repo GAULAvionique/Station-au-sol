@@ -13,10 +13,16 @@ export default class MyData extends EventEmitter {
     lastDataTime = Date.now();
     config = Config.loadAllConfigs();
 
-    constructor(encoding = "utf-8", lineStart = "$", lineEnding = "\n", dataInterval = 100) {
+    constructor({
+                    encoding = "utf-8",
+                    lineStart = "$",
+                    lineEnding = "\n",
+                    dataInterval = 100,
+                    storage = new MyStorage(null)
+                }={}) {
         super();
 
-        this.bd = new MyStorage(null);
+        this.bd = storage;
 
         this.encoding = encoding;
         this.lineStart = lineStart;
@@ -93,82 +99,39 @@ export default class MyData extends EventEmitter {
 
         dataDict = this.standarizeData(dataDict);
 
-        this.validateData(dataDict);
-
         this.bd.writeFormattedData(dataDict);
         this.emit("data", this.bd.getLastInput());
     }
 
     //-------------------------------------------------------------------------------
 
-    // Fill predefined fields with data
     standarizeData(data) {
         let stdData = {};
 
-        // Time of data in seconds
-        stdData.time = numberPrecision((Date.now() - this.startDataTime) / 1000, 3);
+        for (const [key, value] of Object.entries(Config.standarizedData)) {
+            let raw;
+            if (Array.isArray(value.inputKey)) {
+                raw = value.inputKey.map(k => data[k]);
+            } else if (value.inputKey) {
+                raw = data[value.inputKey];
+            } else {
+                raw = null;
+            }
+            let finalval = raw;
+            if (value.transform) {
+                try {
+                    finalval = value.transform(this, raw);
+                } catch (_) {
+                    finalval = null;
+                }
+            }
+            stdData[key] = finalval !== undefined ? finalval : null;
+            stdData[key] = !isNaN(finalval) ? finalval : null;
+        }
 
-        // Flight mode (0: PREFLIGHT, 1: INFLIGHT, 2: POSTFLIGHT)
-        stdData.flightMode = data.flightMode !== undefined ? data.flightMode : null;
-        // Igniter status (0: ERROR, 1: CONTINUITY)
-        stdData.statIgniter1 = data.statIgniter1 !== undefined ? data.statIgniter1 : null;
-        stdData.statIgniter2 = data.statIgniter2 !== undefined ? data.statIgniter2 : null;
-        stdData.statIgniter3 = data.statIgniter3 !== undefined ? data.statIgniter3 : null;
-        stdData.statIgniter4 = data.statIgniter4 !== undefined ? data.statIgniter4 : null;
-        // Accelerometer status (0: ERROR, 1: OK)
-        stdData.statAccelerometer = data.statAccelerometer !== undefined ? data.statAccelerometer : null;
-        // Barometer status (0: ERROR, 1: OK)
-        stdData.statBarometer = data.statBarometer !== undefined ? data.statBarometer : null;
-        // GPS status (0: ERROR, 1: OK)
-        stdData.statGPS = data.statGPS !== undefined ? data.statGPS : null;
-        // SD card status (0: ERROR, 1: OK)
-        stdData.statSD = data.statSD !== undefined ? data.statSD : null;
-
-        // Temperature of barometer in Celsius
-        stdData.temperature = data.temperature !== undefined ? numberPrecision(data.temperature, 2) : null;
-        // Altitude from barometer in meters
-        stdData.altitude = data.altitude !== undefined ? numberPrecision(data.altitude, 2) : null;
-        stdData.altitude_ft = data.altitude !== undefined ? numberPrecision(data.altitude * 3.28084, 2) : null;
-        // Vertical speed in m/s
-        // stdData.speed = data.speed !== undefined ? numberPrecision(data.speed, 2) : null;
-        stdData.speed = numberPrecision(
-            (data.altitude - this.spdLastAltitude) / ((Date.now() - this.spdLastTime) / 1000),
-            2
-        ); // Avg speed
         this.spdLastAltitude = stdData.altitude;
         this.spdLastTime = Date.now();
-        // Highest acceleration in m/s
-        stdData.acceleration = Math.max(data.accelerationX, data.accelerationY, data.accelerationZ);
-        stdData.acceleration = stdData.acceleration !== NaN ? numberPrecision(stdData.acceleration, 2) : null;
-        // GPS Fix (0: NO FIX, 1: FIX)
-        stdData.gps_fix = data.gps_fix !== undefined ? data.gps_fix : null;
-        // Latitude from GPS in degrees
-        stdData.latitude = data.latitude !== undefined ? numberPrecision(data.latitude, 8) : null;
-        // Longitude from GPS in degrees
-        stdData.longitude = data.longitude !== undefined ? numberPrecision(data.longitude, 8) : null;
-        // Pitch of the rocket in degrees
-        stdData.pitch = data.pitch !== undefined ? numberPrecision(data.pitch, 2) : null;
-        // Yaw of the rocket in degrees
-        stdData.yaw = data.yaw !== undefined ? numberPrecision(data.yaw, 2) : null;
-        // Roll of the rocket in degrees
-        stdData.roll = data.roll !== undefined ? numberPrecision(data.roll, 2) : null;
-        // Battery 1 voltage in mV
-        stdData.batt1_mV = data.lipo1_mV !== undefined ? numberPrecision(data.lipo1_mV, 0) : null;
-        // Battery 2 voltage in mV
-        stdData.batt2_mV = data.lipo2_mV !== undefined ? numberPrecision(data.lipo2_mV, 0) : null;
-        // Battery 3 voltage in mV
-        stdData.batt3_mV = data.lipo3_mV !== undefined ? numberPrecision(data.lipo3_mV, 0) : null;
-
-        // console.log(stdData);
-
         return stdData;
-    }
-
-    //-------------------------------------------------------------------------------
-
-    validateData(data) {
-        // TODO
-        return;
     }
 
     //-------------------------------------------------------------------------------
@@ -222,10 +185,4 @@ export default class MyData extends EventEmitter {
         this.bd.writeFormattedData(dataDict);
         this.emit("data", dataDict);
     }
-}
-
-//-------------------------------------------------------------------------------
-
-function numberPrecision(value, precision) {
-    return Number(Number(value).toFixed(precision));
 }

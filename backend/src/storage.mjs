@@ -175,7 +175,7 @@ export default class MyStorage {
         }
         let query = `INSERT INTO ${this.tableName} (`;
         let placeholders = ``;
-        for (const [columnName, columnType] of Object.entries(Config.columns)) {
+        for (const [columnName, _] of Object.entries(Config.standarizedData)) {
             if (columnName in data) {
                 query += `${columnName}, `;
                 placeholders += `@${columnName}, `;
@@ -204,8 +204,8 @@ export default class MyStorage {
         let query = `CREATE TABLE IF NOT EXISTS ${this.tableName} (
             id      INTEGER PRIMARY KEY AUTOINCREMENT,
             date    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,`;
-        for (const [columnName, columnType] of Object.entries(Config.columns)) {
-            query += `${columnName} ${columnType[0]}, `;
+        for (const [key, value] of Object.entries(Config.standarizedData)) {
+            query += `${key} ${value.sql}, `;
         }
         query = query.slice(0, -2);
         query += ")";
