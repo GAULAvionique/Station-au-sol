@@ -1,0 +1,77 @@
+{
+  "title": "Flight Mode Data Structure Configuration",
+  "description": "Schéma pour valider la structure de décodage d'un mode de vol spécifique.",
+  "type": "object",
+  "required": ["name", "totalLength", "flag_fields", "dataFields"],
+  "properties": {
+    "name": {
+      "description": "Nom lisible du mode de vol.",
+      "type": "string"
+    },
+    "totalLength": {
+      "description": "Longueur totale attendue du paquet en octets (pour la validation).",
+      "type": "integer",
+      "minimum": 1
+    },
+
+    "flag_fields": {
+      "description": "Configuration des indicateurs binaires (flags) dans l'octet d'en-tête.",
+      "type": "object",
+      "required": ["size_bits", "fields"],
+      "properties": {
+        "size_bits": {
+          "description": "Nombre de bits utilisés pour tous les flags.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "fields": {
+          "description": "Liste ordonnée des flags à décoder.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["key", "offset"],
+            "properties": {
+              "key": {
+                "description": "Clé du flag dans le dictionnaire de données (dataDict).",
+                "type": "string"
+              },
+              "offset": {
+                "description": "Décalage binaire (>> N) pour extraire ce flag (0 étant le bit de poids faible).",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 7
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "dataFields": {
+      "description": "Liste ordonnée des champs de données multi-octets (séquentiels).",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["key", "type"],
+        "properties": {
+          "key": {
+            "description": "Clé du champ dans le dataDict, ou 'NULL' si c'est un remplissage.",
+            "type": "string"
+          },
+          "type": {
+            "description": "Type de lecture qui correspond à une clé dans le dictionnaire 'typeReading'.",
+            "type": "string",
+            "enum": ["float", "Uint16"]
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

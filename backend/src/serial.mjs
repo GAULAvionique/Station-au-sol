@@ -79,7 +79,7 @@ export default class MySerial extends EventEmitter {
         this.serialPort.on("error", (error) => {
             this.serialConnected = false;
 
-            if (error.toString() != this.lastEventError) {
+            if (error.toString() !== this.lastEventError) {
                 logger.error(error, error.message);
             }
 

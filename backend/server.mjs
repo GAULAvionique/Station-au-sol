@@ -1,5 +1,7 @@
 /**
- * Main entry point of the server.
+ * @class Server
+ * @classdesc Manages the backend architecture by assigning actions to signals emitted by various components.
+ * Coordinates communication between the serial interface, data handler, storage system, and client connections.
  */
 
 import MyWebServer from "./src/webserver.mjs";
@@ -34,12 +36,48 @@ class App {
         this.eventListeners();
     }
 
+    /**
+     * Sets up various event listeners for handling signals emitted by different components of the backend architecture.
+     *
+     * Events handled:
+     *
+     * - **Raw Data (`rawData`):**
+     *   Triggered when the serial port receives raw data. The raw data is stored in a file and processed either in
+     *   mock mode or normal mode.
+     *   - **Emitted by:** `serial`
+     *   - **Payload:** `data` (string)
+     *
+     * - **Serial Events (`serialEvent`):**
+     *   Triggered for communication events like connection open, close, or errors during interaction with the rocket.
+     *   - **Emitted by:** `serial`
+     *   - **Payload:** `event` (object)
+     *
+     * - **Formatted Data (`data`):**
+     *   Triggered when the data handler completes data formatting. The formatted data is stored in a CSV file and sent to clients.
+     *   - **Emitted by:** `data`
+     *   - **Payload:** `data` (object)
+     *
+     * - **Data Events (`dataEvent`):**
+     *   Triggered for errors or information during data formatting.
+     *   - **Emitted by:** `data`
+     *   - **Payload:** `event` (object)
+     *
+     * - **Client Requests Available Serial Paths (`getAvailablePaths`):**
+     *   Triggered when a client requests the available serial port paths.
+     *   - **Emitted by:** `socket`
+     *   - **Callback Payload:** `{ availablePaths: string[], currentPath: string }`
+     *
+     * - **Client Sends New Settings (`newSettings`):**
+     *   Triggered when a client sends new serial port settings.
+     *   - **Emitted by:** `socket`
+     *   - **Payload:** `settings` (object)
+     */
     eventListeners() {
         // Raw data from the serial port
         // data: string
         this.serial.on("rawData", (data) => {
             // Add raw data to a file
-            this.storage.writeRaw(data);
+            this.storage.writeRawData(data);
             // Handle data
             if (MOCK_MODE) {
                 this.data.handleRawMockData(data);
@@ -51,8 +89,6 @@ class App {
         // Formatted data from the data handler
         // data: dictionary
         this.data.on("data", (data) => {
-            // Add formatted data to a csv file
-            this.storage.writeFormatted(data);
             // Send data to clients
             this.socket.sendData(data);
         });

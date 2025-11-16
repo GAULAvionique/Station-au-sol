@@ -1,0 +1,88 @@
+{
+  "$schema": "mode_schema.json",
+  "name": "INFLIGHT",
+  "totalLength": 58,
+  "flag_fields": {
+    "size_bits": 6,
+    "fields": [
+      {
+        "key": "statIgniter1",
+        "offset": 5
+      },
+      {
+        "key": "statIgniter2",
+        "offset": 4
+      },
+      {
+        "key": "statAccelerometer",
+        "offset": 3
+      },
+      {
+        "key": "statBarometer",
+        "offset": 2
+      },
+      {
+        "key": "gps_fix",
+        "offset": 1
+      },
+      {
+        "key": "statSD",
+        "offset": 0
+      }
+    ]
+  },
+  "dataFields": [
+    {
+      "key": "altitude",
+      "type": "float"
+    },
+    {
+      "key": "temperature",
+      "type": "float"
+    },
+    {
+      "key": "NULL",
+      "type": "float"
+    },
+    {
+      "key": "latitude",
+      "type": "float"
+    },
+    {
+      "key": "longitude",
+      "type": "float"
+    },
+    {
+      "key": "NULL",
+      "type": "float"
+    },
+    {
+      "key": "NULL",
+      "type": "float"
+    },
+    {
+      "key": "NULL",
+      "type": "float"
+    },
+    {
+      "key": "accelerationX",
+      "type": "float"
+    },
+    {
+      "key": "accelerationY",
+      "type": "float"
+    },
+    {
+      "key": "accelerationZ",
+      "type": "float"
+    },
+    {
+      "key": "roll",
+      "type": "float"
+    },
+    {
+      "key": "pitch",
+      "type": "float"
+    }
+  ]
+}
